@@ -65,7 +65,7 @@ sales-customer-analytics-project/
 
 # 🖥 Dashboard Preview
 
-![Dashboard Preview](screenshots/Dashboard.png)
+![Dashboard Preview](screenshots/Dashboard.PNG)
 
 ---
 
