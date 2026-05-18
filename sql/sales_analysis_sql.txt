@@ -1,0 +1,136 @@
+
+1.Basic SQL Queries
+
+SELECT * FROM sales_data limit 5 ;
+
+SELECT "Customer Name", Sales, Profit FROM sales_data limit 5;
+
+SELECT * FROM sales_data WHERE profit >1000;
+
+SELECT * FROM sales_data WHERE Category='Furniture' and sales >500; 1;
+
+=======================================================================================================================
+
+2.Aggregate Functions
+
+--Sum Functions
+ SELECT category,Sum(Sales)as Total_Sales FROM sales_data GROUP BY Category;
+
+ SELECT count(*) as Total_Orders FROM sales_data;
+
+--Average Functions
+ SELECT Category,AVG(Sales) as Average_Sales FROM sales_data GROUP BY Category;
+
+-- Max 
+SELECT max(Sales) as Highest_Sales FROM sales_data;
+
+SELECT Category, max(Profit)as Highest_Profit FROM sales_data GROUP BY Category;
+
+--Min 
+SELECT min(Profit) as Lowest_Profit FROM sales_data;
+
+=======================================================================================================================
+
+3. Having Queries
+
+SELECT Category,sum(Sales) as Total_Sales FROM sales_data GROUP BY category HAVING Sum(Sales)>500000;
+
+
+=======================================================================================================================
+
+4.CASE WHEN Queries
+
+--Create sales segments(High Sales,Medium Sales,Low Sales)
+
+SELECT Sales,
+
+CASE  
+  WHEN Sales>1000 Then 'High Sales'
+  WHEN Sales>500 Then 'Medium Sales'
+  Else 'Low Sales'
+END as Sales_Category
+
+FROM Sales_data
+limit 10;
+
+
+--Profit Status 
+
+SELECT Profit,
+
+CASE  
+  WHEN Profit>0 Then 'Profit'
+  else 'Loss'
+End As Profit_Status
+
+FROM sales_data
+limit 10;
+
+=======================================================================================================================
+
+5.Real Business Analysis Queries- 
+
+--Top 10 Customers by Sales
+
+SELECT "Customer Name",
+       Sum(Sales)As Total_Sales
+FROM sales_data
+GROUP BY "Customer Name"
+ORDER BY Total_Sales Desc
+limit 10;
+
+
+--Most Profitable Categories
+
+SELECT Category,sum(Profit)As Total_Profit
+FROM sales_data
+GROUP BY Category
+ORDER BY Total_Profit Desc;
+
+--Loss-Making Sub-Categories
+
+SELECT "Sub-Category",
+      Sum(Profit)as Total_Profit
+FROM sales_data
+GROUP BY "Sub-Category"
+HAVING Sum(Profit)<0
+ORDER BY Total_Profit;
+
+--Monthly Sales Trend
+
+SELECT
+  strftime('%m',"Order Date")As Order_Month,
+  Sum(Sales)as Total_Sales
+FROM sales_data
+GROUP BY Order_Month
+ORDER BY Order_Month;
+
+--Discount Impact on Profit
+
+SELECT Discount, Avg(Profit)as Average_Profit
+FROM sales_data
+GROUP BY Discount
+ORDER BY Discount;
+
+--Shipping Performance Analysis
+
+SELECT Region,
+   Avg(Shipping_Days) as Avg_Shipping_Days
+FROM sales_data
+GROUP BY Region
+ORDER BY Avg_Shipping_Days Desc;
+
+--Customer Segmentation
+
+SELECT "Customer Name",
+      Sum(Sales)as Total_Sales,
+CASE  
+  WHEN Sum(Sales)>10000 Then 'High Value'
+  WHEN Sum(Sales)>5000 Then 'Medium Value'
+  Else 'Low Value'
+End as Customer_Segment
+FROM sales_data
+GROUP BY "Customer Name"
+ORDER BY "Total_Sales" Desc;
+
+=======================================================================================================================
